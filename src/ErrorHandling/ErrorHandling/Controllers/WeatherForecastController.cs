@@ -12,7 +12,7 @@ namespace ErrorHandling.Controllers
         };
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public WeatherForecast Get()
+        public ActionResult<WeatherForecast> Get()
         {
             var forecast = new WeatherForecast
             {
@@ -23,10 +23,13 @@ namespace ErrorHandling.Controllers
 
             if (new DateTimeOffset(forecast.Date).ToUnixTimeMilliseconds() % 2 == 0)
             {
-                throw new Exception("unlucky :p");
+                return new ObjectResult(new Exception("unlucky :p"))
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError
+                };
             }
 
-            return forecast;
+            return Ok(forecast);
         }
     }
 }
