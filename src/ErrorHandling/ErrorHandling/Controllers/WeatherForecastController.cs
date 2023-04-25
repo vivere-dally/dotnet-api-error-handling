@@ -1,9 +1,14 @@
+using System.Net.Mime;
+
+using ErrorHandling.Services;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace ErrorHandling.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Produces(MediaTypeNames.Application.Json)]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -11,25 +16,39 @@ namespace ErrorHandling.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public ActionResult<WeatherForecast> Get()
-        {
-            var forecast = new WeatherForecast
-            {
-                Date = DateTime.Now,
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            };
+        private readonly TemperatureService _temperatureService;
 
-            if (new DateTimeOffset(forecast.Date).ToUnixTimeMilliseconds() % 2 == 0)
+        public WeatherForecastController(TemperatureService temperatureService)
+        {
+            _temperatureService = temperatureService;
+        }
+
+        [HttpGet(Name = "GetWeatherForecast")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(WeatherForecast))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
+        public ActionResult<WeatherForecast> Get([FromQuery] int l = -20, [FromQuery] int r = 55)
+        {
+            try
             {
-                return new ObjectResult(new Exception("unlucky :p"))
+                return Ok(new WeatherForecast
+                {
+                    Date = DateTime.Now,
+                    TemperatureC = _temperatureService.GetTemperature(l, r),
+                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                });
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return new ObjectResult(e.Message)
                 {
                     StatusCode = StatusCodes.Status500InternalServerError
                 };
             }
-
-            return Ok(forecast);
         }
     }
 }
