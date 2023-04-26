@@ -1,5 +1,6 @@
 using System.Net.Mime;
 
+using ErrorHandling.Middleware;
 using ErrorHandling.Services;
 
 using Microsoft.AspNetCore.Mvc;
@@ -27,28 +28,15 @@ namespace ErrorHandling.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(WeatherForecast))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
+        [ArgumentExceptionFilter]
         public ActionResult<WeatherForecast> Get([FromQuery] int l = -20, [FromQuery] int r = 55)
         {
-            try
+            return Ok(new WeatherForecast
             {
-                return Ok(new WeatherForecast
-                {
-                    Date = DateTime.Now,
-                    TemperatureC = _temperatureService.GetTemperature(l, r),
-                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-                });
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message);
-            }
-            catch (Exception e)
-            {
-                return new ObjectResult(e.Message)
-                {
-                    StatusCode = StatusCodes.Status500InternalServerError
-                };
-            }
+                Date = DateTime.Now,
+                TemperatureC = _temperatureService.GetTemperature(l, r),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            });
         }
     }
 }
