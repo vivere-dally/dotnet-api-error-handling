@@ -10,6 +10,7 @@ namespace ErrorHandling.Controllers
     [ApiController]
     [Route("[controller]")]
     [Produces(MediaTypeNames.Application.Json)]
+    [ArgumentExceptionFilter]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -28,15 +29,14 @@ namespace ErrorHandling.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(WeatherForecast))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
-        [ArgumentExceptionFilter]
-        public ActionResult<WeatherForecast> Get([FromQuery] int l = -20, [FromQuery] int r = 55)
+        public WeatherForecast Get([FromQuery] int l = -20, [FromQuery] int r = 55)
         {
-            return Ok(new WeatherForecast
+            return new WeatherForecast
             {
                 Date = DateTime.Now,
                 TemperatureC = _temperatureService.GetTemperature(l, r),
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            });
+            };
         }
     }
 }

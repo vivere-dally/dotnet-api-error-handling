@@ -1,3 +1,4 @@
+using ErrorHandling.Middleware;
 using ErrorHandling.Services;
 
 namespace ErrorHandling
@@ -11,7 +12,10 @@ namespace ErrorHandling
             // Add services to the container.
             builder.Services.AddSingleton<TemperatureService>();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(ops =>
+            {
+                ops.Filters.Add<InternalServerErrorExceptionFilterAttribute>();
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
