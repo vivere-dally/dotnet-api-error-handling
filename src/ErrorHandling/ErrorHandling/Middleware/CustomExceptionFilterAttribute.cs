@@ -9,22 +9,14 @@ namespace ErrorHandling.Middleware
     {
         public override void OnException(ExceptionContext context)
         {
-            switch (context.Exception)
+            if (context.Exception is MyAwesomeAppException e)
             {
-                case ForecastTemperatureRangeException:
-                    context.Result = new BadRequestObjectResult(context.Exception.Message);
-                    context.ExceptionHandled = true;
-                    break;
-                case UnluckyException:
-                    context.Result = new ObjectResult(context.Exception.Message)
-                    {
-                        StatusCode = StatusCodes.Status500InternalServerError
-                    };
-                    context.ExceptionHandled = true;
-                    break;
+                context.Result = new ObjectResult(e.Message)
+                {
+                    StatusCode = e.StatusCode
+                };
 
-                default:
-                    break;
+                context.ExceptionHandled = true;
             }
         }
     }

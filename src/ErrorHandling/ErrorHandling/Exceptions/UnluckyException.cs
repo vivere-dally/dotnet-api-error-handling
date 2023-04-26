@@ -2,21 +2,21 @@
 
 namespace ErrorHandling.Exceptions
 {
-    public class UnluckyException : Exception
+    public class UnluckyException : MyAwesomeAppException
     {
-        public UnluckyException()
+        public UnluckyException(int statusCode) : base(statusCode)
         {
         }
 
-        public UnluckyException(string? message) : base(message)
+        public UnluckyException(int statusCode, string? message) : base(statusCode, message)
         {
         }
 
-        public UnluckyException(string? message, Exception? innerException) : base(message, innerException)
+        public UnluckyException(int statusCode, string? message, Exception? innerException) : base(statusCode, message, innerException)
         {
         }
 
-        protected UnluckyException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected UnluckyException(int statusCode, SerializationInfo info, StreamingContext context) : base(statusCode, info, context)
         {
         }
     }

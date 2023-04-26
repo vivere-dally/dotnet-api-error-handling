@@ -2,21 +2,21 @@
 
 namespace ErrorHandling.Exceptions
 {
-    public class ForecastTemperatureRangeException : Exception
+    public class ForecastTemperatureRangeException : MyAwesomeAppException
     {
-        public ForecastTemperatureRangeException()
+        public ForecastTemperatureRangeException(int statusCode) : base(statusCode)
         {
         }
 
-        public ForecastTemperatureRangeException(string? message) : base(message)
+        public ForecastTemperatureRangeException(int statusCode, string? message) : base(statusCode, message)
         {
         }
 
-        public ForecastTemperatureRangeException(string? message, Exception? innerException) : base(message, innerException)
+        public ForecastTemperatureRangeException(int statusCode, string? message, Exception? innerException) : base(statusCode, message, innerException)
         {
         }
 
-        protected ForecastTemperatureRangeException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected ForecastTemperatureRangeException(int statusCode, SerializationInfo info, StreamingContext context) : base(statusCode, info, context)
         {
         }
     }

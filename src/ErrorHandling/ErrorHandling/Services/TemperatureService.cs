@@ -8,12 +8,12 @@ namespace ErrorHandling.Services
         {
             if (l > r)
             {
-                throw new ForecastTemperatureRangeException($"bad args {nameof(l)} {nameof(r)}");
+                throw new ForecastTemperatureRangeException(StatusCodes.Status400BadRequest, $"bad args {nameof(l)} {nameof(r)}");
             }
 
             if (Random.Shared.Next(2) == 0)
             {
-                throw new UnluckyException("whoops");
+                throw new UnluckyException(StatusCodes.Status500InternalServerError, "whoops");
             }
 
             return Random.Shared.Next(l, r);
