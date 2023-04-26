@@ -10,7 +10,7 @@ namespace ErrorHandling.Controllers
     [ApiController]
     [Route("[controller]")]
     [Produces(MediaTypeNames.Application.Json)]
-    [ArgumentExceptionFilter]
+    [CustomExceptionFilter]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

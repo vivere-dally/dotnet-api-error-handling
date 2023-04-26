@@ -1,4 +1,6 @@
-﻿namespace ErrorHandling.Services
+﻿using ErrorHandling.Exceptions;
+
+namespace ErrorHandling.Services
 {
     public class TemperatureService
     {
@@ -6,12 +8,12 @@
         {
             if (l > r)
             {
-                throw new ArgumentException("bad arg", nameof(l));
+                throw new ForecastTemperatureRangeException($"bad args {nameof(l)} {nameof(r)}");
             }
 
             if (Random.Shared.Next(2) == 0)
             {
-                throw new Exception("whoops");
+                throw new UnluckyException("whoops");
             }
 
             return Random.Shared.Next(l, r);
