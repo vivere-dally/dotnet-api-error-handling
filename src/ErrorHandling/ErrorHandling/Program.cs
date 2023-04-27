@@ -1,5 +1,7 @@
 using ErrorHandling.Services;
 
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+
 namespace ErrorHandling
 {
     public class Program
@@ -10,6 +12,7 @@ namespace ErrorHandling
 
             // Add services to the container.
             builder.Services.AddSingleton<TemperatureService>();
+            builder.Services.AddTransient<ProblemDetailsFactory, MyProblemDetailsFactory>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
