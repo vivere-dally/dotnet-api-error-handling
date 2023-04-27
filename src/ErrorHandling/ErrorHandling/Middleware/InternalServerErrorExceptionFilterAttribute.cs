@@ -7,10 +7,13 @@ namespace ErrorHandling.Middleware
     {
         public override void OnException(ExceptionContext context)
         {
-            context.Result = new ObjectResult(context.Exception.Message)
+            context.Result = new ObjectResult(new ProblemDetails()
             {
-                StatusCode = StatusCodes.Status500InternalServerError
-            };
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+                Title = "The server has encountered an error while processing your request.",
+                Detail = context.Exception.Message,
+                Status = StatusCodes.Status500InternalServerError
+            });
             context.ExceptionHandled = true;
         }
     }

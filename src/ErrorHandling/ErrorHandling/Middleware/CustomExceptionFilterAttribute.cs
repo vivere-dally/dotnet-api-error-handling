@@ -11,11 +11,13 @@ namespace ErrorHandling.Middleware
         {
             if (context.Exception is MyAwesomeAppException e)
             {
-                context.Result = new ObjectResult(e.Message)
+                context.Result = new ObjectResult(new ProblemDetails()
                 {
-                    StatusCode = e.StatusCode
-                };
-
+                    Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                    Title = "The server has encountered a domain exception while processing your request.",
+                    Status = e.StatusCode,
+                    Detail = e.Message
+                });
                 context.ExceptionHandled = true;
             }
         }
