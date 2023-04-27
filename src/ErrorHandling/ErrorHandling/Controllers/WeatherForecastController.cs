@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 
 using ErrorHandling.Middleware;
@@ -29,7 +30,7 @@ namespace ErrorHandling.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(WeatherForecast))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
-        public WeatherForecast Get([FromQuery] int l = -20, [FromQuery] int r = 55)
+        public WeatherForecast Get([FromQuery][Range(-100, 100)] int l = -20, [FromQuery][Range(-100, 100)] int r = 55)
         {
             return new WeatherForecast
             {
