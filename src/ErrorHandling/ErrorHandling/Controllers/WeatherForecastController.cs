@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 
-using ErrorHandling.Middleware;
 using ErrorHandling.Services;
 
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +10,6 @@ namespace ErrorHandling.Controllers
     [ApiController]
     [Route("[controller]")]
     [Produces(MediaTypeNames.Application.Json)]
-    [CustomExceptionFilter]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
