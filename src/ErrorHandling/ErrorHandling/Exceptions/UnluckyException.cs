@@ -4,19 +4,19 @@ namespace ErrorHandling.Exceptions
 {
     public class UnluckyException : MyAwesomeAppException
     {
-        public UnluckyException(int statusCode) : base(statusCode)
+        public UnluckyException() : base(StatusCodes.Status500InternalServerError)
         {
         }
 
-        public UnluckyException(int statusCode, string? message) : base(statusCode, message)
+        public UnluckyException(string? message) : base(StatusCodes.Status500InternalServerError, message)
         {
         }
 
-        public UnluckyException(int statusCode, string? message, Exception? innerException) : base(statusCode, message, innerException)
+        public UnluckyException(string? message, Exception? innerException) : base(StatusCodes.Status500InternalServerError, message, innerException)
         {
         }
 
-        protected UnluckyException(int statusCode, SerializationInfo info, StreamingContext context) : base(statusCode, info, context)
+        protected UnluckyException(SerializationInfo info, StreamingContext context) : base(StatusCodes.Status500InternalServerError, info, context)
         {
         }
     }
